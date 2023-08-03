@@ -1,6 +1,6 @@
 package com.wassim.bougarfa;
 
-public class DiagnosticSolution extends DiagnosticNode {
+public class DiagnosticSolution implements DiagnosticNode {
     private String solution;
 
     public DiagnosticSolution(String solution) {
@@ -12,17 +12,7 @@ public class DiagnosticSolution extends DiagnosticNode {
     }
 
     @Override
-    public String getQuestion() {
-        return null;
-    }
-
-    @Override
-    public DiagnosticNode getYesBranch() {
-        return null;
-    }
-
-    @Override
-    public DiagnosticNode getNoBranch() {
-        return null;
+    public String toString() {
+        return solution;
     }
 }

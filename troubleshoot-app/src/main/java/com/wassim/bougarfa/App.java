@@ -10,8 +10,12 @@ public class App {
     public static void main(String[] args) {
         DiagnosticNode tree = DiagnosticTreeFactory.create();
         Scanner scanner = new Scanner(System.in);
-        String solution = diagnose(scanner::nextLine, tree);
-        System.out.println(solution);
+        DiagnosticSolution solution = diagnose(scanner::nextLine, tree);
+        if(solution == null) {
+           System.out.println("Cannot determine correct diagnostic procedure.");
+        } else {
+            System.out.println(solution);
+        }
         scanner.close();
     }
 
@@ -23,21 +27,22 @@ public class App {
      * @param node        The current node in the diagnostic tree.
      * @return The diagnostic solution based on the user's input.
      */
-    public static String diagnose(InputSource inputSource, DiagnosticNode node) {
+    public static DiagnosticSolution diagnose(InputSource inputSource, DiagnosticNode node) {
         if (node == null) {
-            return "Cannot determine correct diagnostic procedure.";
+            return null;
         }
 
         if (node instanceof DiagnosticSolution) {
-            return ((DiagnosticSolution) node).getSolution();
+            return (DiagnosticSolution) node;
         }
 
-        System.out.println(node.getQuestion() + "?");
+        // Question node
+        System.out.println(node);
         String answer = inputSource.nextLine();
         if (answer.equals("yes") || answer.equals("y")) {
-            return diagnose(inputSource, node.getYesBranch());
+            return diagnose(inputSource, ((DiagnosticQuestion) node).getYesBranch());
         } else {
-            return diagnose(inputSource, node.getNoBranch());
+            return diagnose(inputSource, ((DiagnosticQuestion) node).getNoBranch());
         }
     }
 
